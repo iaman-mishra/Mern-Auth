@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { assets } from "../assets/assets.js";
 import { useNavigate } from "react-router-dom";
+import { AppContext } from "../context/AppContext.jsx";
 const Login = () => {
   const [islogin, SetisLogin] = useState(false);
   const [Name, SetName] = useState("");
@@ -8,6 +9,8 @@ const Login = () => {
   const [Password, SetPassword] = useState("");
 
   const navigate = useNavigate();
+
+  const { backendUrl } = useContext(AppContext);
 
   return (
     <div className="flex items-center justify-center min-h-screen px-6 sm:px-0 bg-gradient-to-br from-blue-200 to to-purple-400">
