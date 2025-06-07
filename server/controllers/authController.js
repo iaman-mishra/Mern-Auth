@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import userModel from '../models/userModel.js';
 import transporter from '../config/nodemailer.js';
 
+
 export const register = async (req, res) => {
     const {name , email, password} = req.body;
     if(!name || !email || !password) {
@@ -120,6 +121,36 @@ export const sendVerifyOtp = async (req, res)=>{
 
         await transporter.sendMail(mailOptions);
         return res.json({success:true, message: "OTP sent to your email"});
+
+    } catch (error) {
+        return res.json({success:false, message: error.message});
+    }
+}
+
+export const veifyEmail = async (req, res) => {
+    const {userId, otp} = req.body;
+    if(!userId || !otp) {
+        return res.json({success:false, message: "OTP is required"});
+    }
+    try {
+        const user = await userModel.findById(userId);
+        if(!user) {
+            return res.json({success:false, message: "User not found"});
+        }
+
+        if(user.verifyOtp === '' || user.verifyOtp !== otp){
+            return res.json({success:false, message: "Invalid OTP"});
+        }
+
+        if(user.verifyOtpExpires < Date.now()) {
+            return res.json({success:false, message: "OTP expired"});
+        }
+
+        user.isVerified = true;
+        user.verifyOtp = '';
+        user.verifyOtpExpires = 0;
+        await user.save();
+        return res.json({success:true, message: "Email verified successfully"});
         
     } catch (error) {
         return res.json({success:false, message: error.message});
