@@ -156,3 +156,4 @@ export const veifyEmail = async (req, res) => {
         return res.json({success:false, message: error.message});
     }
 }
+

@@ -17,3 +17,5 @@ const userAuth = (req, res, next)=>{
         return res.json({success: false, message: error.message});
     }
 }
+
+export default userAuth;
