@@ -10,7 +10,7 @@ const Login = () => {
   const [Name, SetName] = useState("");
   const [Email, SetEmail] = useState("");
   const [Password, SetPassword] = useState("");
-  const { backendUrl, isLoggedIn, setIsLoggedIn } = useContext(AppContext);
+  const { backendUrl, isLoggedIn, setIsLoggedIn,getUserData } = useContext(AppContext);
 
   const navigate = useNavigate();
 
@@ -23,6 +23,7 @@ const Login = () => {
         // Login case
         const {data} = await axios.post(backendUrl + "/api/auth/login", {email: Email, password: Password});
         if (data.success) {
+          getUserData();
           toast.success(data.message);
           setIsLoggedIn(true);
           navigate("/");
@@ -33,6 +34,7 @@ const Login = () => {
         // Register case
         const {data} = await axios.post(backendUrl + "/api/auth/register", {name: Name, email: Email, password: Password});
         if (data.success) {
+          getUserData();
           toast.success(data.message);
           setIsLoggedIn(true);
           navigate("/");
