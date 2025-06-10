@@ -10,6 +10,7 @@ export const AppContextProvider = (props) => {
 
     const getAuthStatus = async ()=>{
         try {
+            axios.defaults.withCredentials = true; // Ensure cookies are sent with requests
             const {data} =await axios.post(backendUrl + "/api/auth/is-auth", {example:"body data example"})
             if(data.success){
                 setIsLoggedIn(true);
@@ -26,7 +27,7 @@ export const AppContextProvider = (props) => {
 
     const getUserData = async ()=>{
         try {
-
+            axios.defaults.withCredentials = true; // Ensure cookies are sent with requests
             const {data} =await axios.post(backendUrl + "/api/user/data", {example:"body"})
             if (data.success) {
                 setUserData(data.userData);
