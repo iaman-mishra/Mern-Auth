@@ -17,6 +17,23 @@ const Navbar = () => {
         setUserData(null);
         setIsLoggedIn(false);
         navigate("/");
+      }else{
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }
+
+  const sendVerificationOtp = async (req, res)=>{
+    try {
+      axios.defaults.withCredentials = true;
+      const {data} = await axios.post(backendUrl + "/api/auth/send-verify-otp");
+      if (data.success) {
+        toast.success(data.message);
+        navigate("/email-verify");
+      } else {
+        toast.error(data.message);
       }
     } catch (error) {
       toast.error(error.message);
@@ -31,7 +48,7 @@ const Navbar = () => {
           {userData.name[0].toUpperCase()}
           <div className="absolute top-0 right-0 hidden group-hover:block z-10 text-black rounded pt-10 ">
             <ul className="list-none m-0 p-2 bg-gray-100 text-sm">
-              {userData.isVerified ? "" : <li className="py-1 px-2 hover:bg-gray-200 cursor-pointer">Verify Email</li>}
+              {userData.isVerified ? "" : <li onClick={sendVerificationOtp} className="py-1 px-2 hover:bg-gray-200 cursor-pointer">Verify Email</li>}
               
               <li onClick={handleLogout} className="py-1 px-2 pr-10 hover:bg-gray-200 cursor-pointer">Logout</li>
             </ul>
