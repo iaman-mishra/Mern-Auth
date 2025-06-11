@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { assets } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 const EmailVerify = () => {
   
-  const { backendUrl, isLoggedIn, setIsLoggedIn,getUserData } = useContext(AppContext);
+  const { backendUrl, isLoggedIn, userData,getUserData } = useContext(AppContext);
   
   const inputRefs = React.useRef([]);
 
@@ -54,6 +54,11 @@ const EmailVerify = () => {
       toast.error(error.message);
     }
   }
+
+  useEffect(()=>{
+    isLoggedIn && userData && userData.isVerified && navigate("/")
+
+  },[isLoggedIn, userData])
 
   return (
     <div className="flex items-center justify-center min-h-screen px-6 sm:px-0 bg-gradient-to-br from-blue-200 to to-purple-400">
