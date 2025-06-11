@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import userModel from '../models/userModel.js';
 import transporter from '../config/nodemailer.js';
-
+import { EMAIL_VERIFY_TEMPLATE , PASSWORD_RESET_TEMPLATE } from '../config/emailTemplate.js';
 
 export const register = async (req, res) => {
     const {name , email, password} = req.body;
@@ -116,7 +116,8 @@ export const sendVerifyOtp = async (req, res)=>{
             from: process.env.SENDER_EMAIL,
             to: user.email,
             subject: 'Verify Your Account',
-            text: `Your verification code is ${otp}. It is valid for 10 minutes.`
+            // text: `Your verification code is ${otp}. It is valid for 10 minutes.`,
+            html: EMAIL_VERIFY_TEMPLATE.replace("{{otp}}",otp).replace("{{email}}",user.email)
         }
 
         await transporter.sendMail(mailOptions);
@@ -185,7 +186,8 @@ export const sendResetOtp = async (req, res)=>{
             from: process.env.SENDER_EMAIL,
             to: user.email,
             subject: 'Reset Your Password',
-            text: `Your password reset code is ${otp}. It is valid for 10 minutes.`
+            // text: `Your password reset code is ${otp}. It is valid for 10 minutes.`
+            html: PASSWORD_RESET_TEMPLATE.replace("{{otp}}",otp).replace("{{email}}",user.email)
         }
         await transporter.sendMail(mailOptions);
         return res.json({success:true, message: "OTP sent to your email"});
