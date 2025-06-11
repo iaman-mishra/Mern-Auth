@@ -90,7 +90,7 @@ export const EMAIL_VERIFY_TEMPLATE = `
                       </tr>
                       <tr>
                         <td style="padding: 0 0 10px; font-size: 14px; line-height: 150%;">
-                          This OTP is valid for 24 hours.
+                          This OTP is valid for 10 minutes.
                         </td>
                       </tr>
                     </tbody>
@@ -201,7 +201,7 @@ export const PASSWORD_RESET_TEMPLATE = `
                       </tr>
                       <tr>
                         <td style="padding: 0 0 10px; font-size: 14px; line-height: 150%;">
-                          The password reset otp is only valid for the next 15 minutes.
+                          The password reset otp is only valid for the next 10 minutes.
                         </td>
                       </tr>
                     </tbody>
