@@ -5,7 +5,11 @@ import Login from './pages/Login'
 import EmailVerify from './pages/EmailVerify'
 import ResetPassword from './pages/ResetPassword'
 import { ToastContainer } from 'react-toastify';
+import axios from 'axios'
+
 const App = () => {
+  axios.defaults.withCredentials = true;
+
   return (
     <div>
       <ToastContainer/>
